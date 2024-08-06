@@ -41,6 +41,7 @@ $conn->close();
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="css/revecoin.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+    <link rel="icon" href="images/cropped-v5_15.ico" type="image/x-icon">
     <style>
         header {
             display: flex;
@@ -140,7 +141,20 @@ $conn->close();
     </style>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+<header>
+    <div class="logo">
+        <a href="index.php">
+            <img src="images/logo.png" alt="Revecoin Logo">
+        </a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.php">Inicio</a></li>
+            <li><a href="index.php#planes">Planes</a></li>
+            <li><a href="login.php">Iniciar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
 
     <main>
         <section id="servicios">

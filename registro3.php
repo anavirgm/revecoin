@@ -28,6 +28,17 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
+// Consultar la inversión del plan seleccionado
+$inversion = '';
+$stmt = $conn->prepare("SELECT inversion FROM planes WHERE id = ?");
+if ($stmt) {
+    $stmt->bind_param("i", $planId);
+    $stmt->execute();
+    $stmt->bind_result($inversion);
+    $stmt->fetch();
+    $stmt->close();
+}
+
 // Procesar el formulario si se envió
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $numeroTarjeta = $_POST['numero_tarjeta'];
@@ -77,6 +88,7 @@ if ($result->num_rows > 0) {
 $conn->close();
 ?>
 
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -86,6 +98,7 @@ $conn->close();
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="css/revecoin.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+    <link rel="icon" href="images/cropped-v5_15.ico" type="image/x-icon">
     <style>
         /* Estilos para el formulario */
         header {
@@ -155,6 +168,11 @@ $conn->close();
             box-sizing: border-box;
         }
 
+        .form-group input[readonly] {
+            background: #D0D0D0;
+            cursor: not-allowed;
+        }
+
         .form-container button {
             display: block;
             margin: 20px auto;
@@ -177,8 +195,22 @@ $conn->close();
     </style>
 </head>
 <body>
-    <?php include 'header.php'; ?>
-    <main>
+<header>
+    <div class="logo">
+        <a href="index.php">
+            <img src="images/logo.png" alt="Revecoin Logo">
+        </a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="index.php">Inicio</a></li>
+            <li><a href="index.php#planes">Planes</a></li>
+            <li><a href="login.php">Iniciar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
     <section id="servicios">
         <div class="servicios-container">
             <div class="servicio">
@@ -190,6 +222,12 @@ $conn->close();
                             <label for="card-number">Número de la Tarjeta</label>
                             <input type="text" id="card-number" name="numero_tarjeta" required>
                         </div>
+
+                        <div class="form-group">
+                            <label for="amount">Monto</label>
+                            <input type="text" id="amount" name="amount" value="<?php echo htmlspecialchars($inversion); ?>" readonly>
+                        </div>
+                        
                         <div class="form-group">
                             <label for="fecha-vencimiento">Fecha de Vencimiento</label>
                             <input type="text" id="fecha-vencimiento" name="fecha_vencimiento" placeholder="MM/AA" required>
@@ -209,7 +247,7 @@ $conn->close();
             <i class="bx bxs-circle"></i>
         </div>
     </section>
-    </main>
-    <?php include 'footer.php'; ?>
+</main>
+<?php include 'footer.php'; ?>
 </body>
 </html>

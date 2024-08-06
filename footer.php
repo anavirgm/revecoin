@@ -18,7 +18,7 @@
                         <img src="images/x.png" alt="Instagram Icon" class="footer-icon">
                         </a>
 
-                        <a href="https://github.com/anavirgm/">
+                        <a href="https://github.com/anavirgm/revecoin">
                             <img src="images/github.png" alt="Instagram Icon" class="footer-icon">
                         </a>
                     

@@ -7,7 +7,7 @@
     <title>ReveCoin - ¡Invierte en el FUTURO!</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="css/revecoin.css" rel="stylesheet">
-    <link rel="icon" href="http://grupo8.miuni.kids/wp/wp-content/uploads/2024/07/cropped-v5_15.png" type="image/x-icon">
+    <link rel="icon" href="images/cropped-v5_15.ico" type="image/x-icon">
     
 </head>
 
