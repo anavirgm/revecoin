@@ -1,4 +1,45 @@
+<?php
+session_start(); // Iniciar sesión al inicio del archivo
 
+// Obtener los parámetros 'plan' y 'id' de la URL
+$plan = isset($_GET['plan']) ? $_GET['plan'] : '';
+$planId = 0;
+$planName = '';
+
+// Determinar el ID del plan basado en el parámetro
+switch ($plan) {
+    case 'bronce':
+        $planId = 1; // ID correspondiente para 'Bronce'
+        $planName = 'Bronce';
+        break;
+    case 'plata':
+        $planId = 2; // ID correspondiente para 'Plata'
+        $planName = 'Plata';
+        break;
+    case 'oro':
+        $planId = 3; // ID correspondiente para 'Oro'
+        $planName = 'Oro';
+        break;
+    default:
+        echo '<h2>Plan no válido</h2>';
+        echo '<p>Por favor, elige un plan válido.</p>';
+        exit;
+}
+
+// Si el formulario ha sido enviado
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Guardar los datos del formulario en la sesión
+    $_SESSION['nombre'] = $_POST['full-name'];
+    $_SESSION['email'] = $_POST['email'];
+    $_SESSION['telefono'] = $_POST['phone'];
+    $_SESSION['contraseña'] = $_POST['password'];
+    $_SESSION['planId'] = $planId;
+
+    // Redirigir al usuario a registro2.php
+    header('Location: registro2.php');
+    exit();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -109,74 +150,6 @@
 
     <main>
         <section id="servicios">
-            <?php
-            // Obtener los parámetros 'plan' y 'id' de la URL
-            $plan = isset($_GET['plan']) ? $_GET['plan'] : '';
-            $planId = 0;
-            $planName = '';
-
-            // Determinar el ID del plan basado en el parámetro
-            switch ($plan) {
-                case 'bronce':
-                    $planId = 1; // ID correspondiente para 'Bronce'
-                    $planName = 'Bronce';
-                    break;
-                case 'plata':
-                    $planId = 2; // ID correspondiente para 'Plata'
-                    $planName = 'Plata';
-                    break;
-                case 'oro':
-                    $planId = 3; // ID correspondiente para 'Oro'
-                    $planName = 'Oro';
-                    break;
-                default:
-                    echo '<h2>Plan no válido</h2>';
-                    echo '<p>Por favor, elige un plan válido.</p>';
-                    exit;
-            }
-
-            // Si el formulario ha sido enviado
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                // Obtener los datos del formulario
-                $nombre = $_POST['full-name'];
-                $email = $_POST['email'];
-                $telefono = $_POST['phone'];
-                $contraseña = $_POST['password'];
-                
-                // Conectar a la base de datos
-                $servername = "localhost";
-                $username = "root";
-                $password = "";
-                $dbname = "revecoin";
-
-                $conn = new mysqli($servername, $username, $password, $dbname);
-
-                // Verificar la conexión
-                if ($conn->connect_error) {
-                    die("Conexión fallida: " . $conn->connect_error);
-                }
-
-                // Preparar y ejecutar la consulta SQL
-                $stmt = $conn->prepare("INSERT INTO usuarios (nombres, email, telefono, contraseña, plan) VALUES (?, ?, ?, ?, ?)");
-                if (!$stmt) {
-                    die("Error en la preparación de la consulta: " . $conn->error);
-                }
-
-                $hashed_password = password_hash($contraseña, PASSWORD_DEFAULT);
-                $stmt->bind_param("ssssi", $nombre, $email, $telefono, $hashed_password, $planId);
-
-                if ($stmt->execute()) {
-                    echo "<h2>Registro completado exitosamente</h2>";
-                } else {
-                    echo "<h2>Error al registrar el usuario</h2>";
-                    echo "<p>Error: " . $stmt->error . "</p>";
-                }
-
-                $stmt->close();
-                $conn->close();
-            }
-            ?>
-
             <h2>Usted ha elegido el plan <?php echo $planName; ?></h2>
 
             <div class="servicios-container">

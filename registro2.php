@@ -1,6 +1,39 @@
+<?php
+session_start(); // Iniciar sesión al inicio del archivo
+
+// Verificar que el usuario haya llegado a esta página después de llenar los datos
+if (!isset($_SESSION['nombre']) || !isset($_SESSION['email']) || !isset($_SESSION['telefono']) || !isset($_SESSION['contraseña']) || !isset($_SESSION['planId'])) {
+    header('Location: registro1.php');
+    exit();
+}
+
+// Conectar a la base de datos
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "revecoin";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificar la conexión
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+
+// Recuperar los IDs de los métodos de pago desde la base de datos
+$metodos = [];
+$result = $conn->query("SELECT id, nombre FROM metodos_pago");
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $metodos[$row['nombre']] = $row['id'];
+    }
+}
+
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +41,6 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="css/revecoin.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
-
     <style>
         header {
             display: flex;
@@ -68,7 +100,7 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
-            font-family: 'Poppins';
+            font-family: 'Poppins', sans-serif;
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
         }
@@ -89,33 +121,27 @@
             text-align: center;
         }
 
-        .credit-card {
-            background-color: #E85C5C;
+        .crédito {
+            background-color: #E85C5C; /* Rojo */
         }
 
-        .debit-card {
-            background-color: #8CB95F;
+        .débito {
+            background-color: #8CB95F; /* Verde */
         }
 
         .paypal {
-            background-color: #555BEB;
+            background-color: #555BEB; /* Azul oscuro */
         }
 
         .binancepay {
-            background-color: #BCB575;
+            background-color: #BCB575; /* Beige */
             color: white;
-        }
-
-        .servicios .rating{
-            color: black;
-            font-size: 1.6rem;
-            margin: 2rem 2rem 2rem;
         }
     </style>
 </head>
-
 <body>
     <?php include 'header.php'; ?>
+
     <main>
         <section id="servicios">
             <div class="servicios-container">
@@ -123,33 +149,18 @@
                     <h3>Por favor, Ingrese su <br> método de pago.</h3>
                     <p>----------------------------------</p>
                     <div class="button-container">
-                        <button class="registro-button credit-card" onclick="location.href='registro3.php?metodo=credito'">
-                            <img src="images/credito.png" alt="Crédito">
-                            <span>Tarjeta de Crédito</span>
+                        <?php foreach ($metodos as $nombre => $id): ?>
+                        <button class="registro-button <?php echo strtolower($nombre); ?>" onclick="location.href='registro3.php?metodo=<?php echo $id; ?>'">
+                            <img src="images/<?php echo strtolower($nombre); ?>.png" alt="<?php echo $nombre; ?>">
+                            <span><?php echo $nombre; ?></span>
                         </button>
-                        <button class="registro-button debit-card" onclick="location.href='registro3.php?metodo=debito'">
-                            <img src="images/debito.png" alt="Débito">
-                            <span>Tarjeta de Débito</span>
-                        </button>
-                        <button class="registro-button paypal" onclick="location.href='registro3.php?metodo=paypal'">
-                            <img src="images/paypal.png" alt="Paypal">
-                            <span>Paypal</span>
-                        </button>
-                        <button class="registro-button binancepay" onclick="location.href='registro3.php?metodo=binance'">
-                            <img src="images/binance.png" alt="BinancePay">
-                            <span>BinancePay</span>
-                        </button>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
-            <div class="rating">
-					<i class="bx bxs-circle"></i>
-					<i class="bx bxs-circle"></i>
-					<i class="bx bx-circle"></i>
-			</div>
         </section>
     </main>
+    
     <?php include 'footer.php'; ?>
 </body>
-
 </html>
