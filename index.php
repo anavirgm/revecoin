@@ -7,6 +7,8 @@
     <title>ReveCoin - ¡Invierte en el FUTURO!</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="css/revecoin.css" rel="stylesheet">
+    <link rel="icon" href="http://grupo8.miuni.kids/wp/wp-content/uploads/2024/07/cropped-v5_15.png" type="image/x-icon">
+    
 </head>
 
 <body>
@@ -97,7 +99,7 @@
         <section id="pricing-plans">
     <h2 id="planes">Impresionante Plan de Precios</h2>
     <div class="pricing-cards">
-        <div class="pricing-card">
+        <div class="pricing-card" data-id="1">
             <div class="header">
                 <img src="images/bronce.png" alt="Bronce Icon" class="plan-icon">
                 <h3 class="bronze">Bronce</h3>
@@ -107,7 +109,7 @@
             <div class="price">
                 <h4>$2,2<span> / Diarios</span></h4>
             </div>
-            <a href="registro1.php?plan=bronce">
+            <a href="registro1.php?plan=bronce&id=1">
                 <button class="cta">Hacer Inversión</button>
             </a>
             <ul class="features">
@@ -120,7 +122,8 @@
             </ul>
             <p class="initial-investment">Inversión Inicial: $66,00</p>
         </div>
-        <div class="pricing-card">
+
+        <div class="pricing-card" data-id="2">
             <div class="header">
                 <img src="images/plata.png" alt="Plata Icon" class="plan-icon">
                 <h3 class="silver">Plata</h3>
@@ -130,7 +133,7 @@
             <div class="price">
                 <h4>$5<span>/ Diarios</span></h4>
             </div>
-            <a href="registro1.php?plan=plata">
+            <a href="registro1.php?plan=plata&id=2">
                 <button class="cta">Hacer Inversión</button>
             </a>
             <ul class="features">
@@ -144,7 +147,8 @@
             <p class="initial-investment">Inversión Inicial: $150,00</p>
             <div class="popular">Popular</div>
         </div>
-        <div class="pricing-card">
+
+        <div class="pricing-card" data-id="3">
             <div class="header">
                 <img src="images/oro.png" alt="Oro Icon" class="plan-icon">
                 <h3 class="gold">Oro</h3>
@@ -154,7 +158,7 @@
             <div class="price">
                 <h4>$10<span>/ Diarios</span></h4>
             </div>
-            <a href="registro1.php?plan=oro">
+            <a href="registro1.php?plan=oro&id=3">
                 <button class="cta">Hacer Inversión</button>
             </a>
             <ul class="features">
@@ -169,7 +173,6 @@
         </div>
     </div>
 </section>
-
 
 
 
