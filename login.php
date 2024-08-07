@@ -9,7 +9,37 @@
     <link href="css/revecoin.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
     <link rel="icon" href="images/cropped-v5_15.ico" type="image/x-icon">
-    <style>
+</head>
+
+<body>
+<?php include 'header.php'; ?>
+
+    <main>
+        <section id="login-section">
+            <div class="login-container">
+                <h3>Inicio de Sesión</h3>
+                <p>------------------------------------</p>
+
+                <form action="login_processing.php" method="post">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+
+                    <button type="submit">Iniciar Sesión</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <?php include 'footer.php'; ?>
+</body>
+
+<style>
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f4f4;
@@ -108,45 +138,4 @@
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
         }
     </style>
-</head>
-
-<body>
-<header>
-    <div class="logo">
-        <a href="index.php">
-            <img src="images/logo.png" alt="Revecoin Logo">
-        </a>
-    </div>
-    <nav>
-        <ul>
-            <li><a href="index.php">Inicio</a></li>
-            <li><a href="index.php#planes">Registrarse</a></li>
-        </ul>
-    </nav>
-</header>
-
-    <main>
-        <section id="login-section">
-            <div class="login-container">
-                <h3>Inicio de Sesión</h3>
-                <p>------------------------------------</p>
-
-                <form action="login_processing.php" method="post">
-                    <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Contraseña</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-
-                    <button type="submit">Iniciar Sesión</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <?php include 'footer.php'; ?>
-</body>
 </html>

@@ -136,20 +136,7 @@ $conn->close();
     </style>
 </head>
 <body>
-<header>
-    <div class="logo">
-        <a href="index.php">
-            <img src="images/logo.png" alt="Revecoin Logo">
-        </a>
-    </div>
-    <nav>
-        <ul>
-            <li><a href="index.php">Inicio</a></li>
-            <li><a href="index.php#planes">Planes</a></li>
-            <li><a href="login.php">Cerrar Sesión</a></li>
-        </ul>
-    </nav>
-</header>
+<?php include 'header.php'; ?>
 
 <main>
 
