@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php'; // Asegúrate de tener este archivo con la conexión a la base de datos
+include 'db_connection.php'; // archivo con la conexión a la base de datos
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener el email y la contraseña del formulario

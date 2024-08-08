@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -11,19 +12,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 $id = $_SESSION['id'];
 $nombres = $_SESSION['nombres'];
 
-// Conectar a la base de datos
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "revecoin";
-
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
 
 // Obtener el plan del usuario
 $sql = "SELECT plan FROM usuarios WHERE id = ?";
@@ -53,10 +41,25 @@ if ($result->num_rows > 0) {
     $recompensa = "No disponible";
 }
 
+// Obtener el valor acumulado actual
+$sql = "SELECT dinero_acumulado FROM monedero WHERE usuario_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $dinero_acumulado = $row['dinero_acumulado'];
+} else {
+    $dinero_acumulado = 0;
+}
+
 // Cerrar la conexión
 $stmt->close();
 $conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -131,7 +134,38 @@ $conn->close();
             margin-bottom: 40px;
         }
 
-        
+        .cta {
+            position: relative;
+            padding: 10px 20px;
+            background-color: #693DCF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Poppins';
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        .cta .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 42px;
+            background-color:#693dcfbd;
+            width: 0;
+            transition: width 10s linear;
+            cursor:progress;
+        }
+
+        .cta.active .progress-bar {
+            width: 100%;
+        }
+
+        .cta:disabled {
+            opacity: 0.7;
+            cursor:not-allowed;
+        }
 
     </style>
 </head>
@@ -139,57 +173,93 @@ $conn->close();
 <?php include 'header.php'; ?>
 
 <main>
+    <section id="pricing-plans">
+        <h2 id="planes"> </h2>
+        <div class="pricing-cards">
 
-<section id="pricing-plans">
-    <h2 id="planes"> </h2>
-    <div class="pricing-cards">
+            <div class="pricing-card" data-id="1">
+                <div class="header">
+                    <h3 class="bronze">Tarea Nº1</h3>
+                </div>
+                <p>Duración: 10seg</p>
+                <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
+                
+                <a href="javascript:void(0);">
+                <button class="cta" id="start-task-1" data-task-complete="false">Iniciar
+                    <div class="progress-bar"></div>
+                </button>
 
-        <div class="pricing-card" data-id="1">
-            <div class="header">
-                <h3 class="bronze">Tarea Nº1</h3>
+                </a>
+                <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
             </div>
-            <p>Duración: 10seg</p>
-            <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
-            
-            <a href=" ">
-                <button class="cta">Iniciar</button>
-            </a>
-            <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
+
+            <div class="pricing-card" data-id="2">
+                <div class="header">
+                    <h3 class="silver">Tarea Nº2</h3>
+                </div>
+                <p>Duración: 10seg</p>
+                <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
+                
+                <a href="javascript:void(0);">
+                    <button class="cta" id="start-task-2" data-task-complete="false">Iniciar
+                        <div class="progress-bar"></div>
+                    </button>
+                </a>
+                <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
+            </div>
+
+            <div class="pricing-card" data-id="3">
+                <div class="header">
+                    <h3 class="gold">Tarea Nº3</h3>
+                </div>
+                <p>Duración: 10seg</p>
+                <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
+                
+                <a href="javascript:void(0);">
+                    <button class="cta" id="start-task-3" data-task-complete="false">Iniciar
+                        <div class="progress-bar"></div>
+                    </button>
+                </a>
+                <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
+            </div>
+
         </div>
 
-        <div class="pricing-card" data-id="2">
-            <div class="header">
-                <h3 class="silver">Tarea Nº2</h3>
-            </div>
-            <p>Duración: 10seg</p>
-            <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
-            
-            <a href=" ">
-                <button class="cta">Iniciar</button>
-            </a>
-            <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
-        </div>
+        <a href=" ">
+            <button class="acumulado">Acumulado: <br> $<?php echo number_format($dinero_acumulado, 2); ?></button>
+        </a>
 
-        <div class="pricing-card" data-id="3">
-            <div class="header">
-                <h3 class="gold">Tarea Nº3</h3>
-            </div>
-            <p>Duración: 10seg</p>
-            <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
-            
-            <a href=" ">
-                <button class="cta">Iniciar</button>
-            </a>
-            <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
-        </div>
-    </div>
-
-    <a href=" ">
-        <button class="acumulado">Acumulado: <br> ???</button>
-    </a>
-</section>
-
+    </section>
 </main>
 <?php include 'footer.php'; ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // Función para iniciar la tarea
+    const startTask = (buttonId) => {
+        const button = document.getElementById(buttonId);
+        const progressBar = button.querySelector('.progress-bar');
+        const isTaskComplete = button.getAttribute('data-task-complete') === 'true';
+        
+        if (!isTaskComplete) {
+            button.classList.add('active');
+            setTimeout(() => {
+                button.classList.remove('active');
+                button.innerHTML = 'Completado'; // Cambiar el texto del botón
+                button.disabled = true; // Deshabilitar el botón
+                button.setAttribute('data-task-complete', 'true'); // Marcar la tarea como completada
+            }, 10000); // 10 segundos
+        }
+    };
+
+    // Asignar evento de clic a los botones
+    document.getElementById('start-task-1').addEventListener('click', () => startTask('start-task-1'));
+    document.getElementById('start-task-2').addEventListener('click', () => startTask('start-task-2'));
+    document.getElementById('start-task-3').addEventListener('click', () => startTask('start-task-3'));
+});
+
+
+</script>
+
 </body>
 </html>

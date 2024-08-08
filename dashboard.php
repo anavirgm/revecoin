@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -11,20 +12,6 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 $id = $_SESSION['id'];
 $nombres = $_SESSION['nombres'];
 $plan_id = isset($_SESSION['plan']) ? $_SESSION['plan'] : null; // Valor por defecto en caso de que no exista
-
-// Conectar a la base de datos
-$servername = "localhost";
-$username = "root";
-$password = ""; // Cambia esto por tu contraseña de base de datos
-$dbname = "revecoin"; // Cambia esto por el nombre de tu base de datos
-
-// Crear conexión
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
 
 // Preparar la consulta SQL
 $sql = "SELECT p.ganancias 
@@ -173,6 +160,24 @@ $conn->close();
             background: #9367FD;
         }
 
+        #pricing-plans button {
+            font-family: 'Poppins';
+            background: #9568FF;
+            border: none;
+            padding: 8px 20px;
+            font-size: 16px;
+            color: #fff;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        #pricing-plans button:hover {
+            background-color: #4f3492;
+            transform: scale(1.05);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+                
+        }
+
         .pricing-card {
             width: 40%;
             background-color: #FFFFFF;
@@ -295,7 +300,7 @@ $conn->close();
                         <h3 class="silver">Más Opciones</h3>
                     </div>
                     <div class="button-container">
-                        <a href="dashboard.php">
+                        <a href="monedero.php">
                             <button class="cta">Realizar Retiro</button>
                         </a>
                         <a href="index.php#planes">

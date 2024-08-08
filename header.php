@@ -1,11 +1,11 @@
 <?php
-// Obtén el nombre del archivo actual
+
 $current_file = basename($_SERVER['PHP_SELF']);
 
-// Determina el contenido del header basado en el archivo actual
 switch ($current_file) {
     case 'dashboard.php':
     case 'tareas.php':
+    case 'monedero.php':
         ?>
         <header>
         <div class="logo">

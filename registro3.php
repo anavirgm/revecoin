@@ -1,5 +1,6 @@
 <?php
 session_start(); // Iniciar sesión al inicio del archivo
+include 'db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar que el usuario haya llegado a esta página después de llenar los datos
 if (!isset($_SESSION['nombre']) || !isset($_SESSION['email']) || !isset($_SESSION['telefono']) || !isset($_SESSION['contraseña']) || !isset($_SESSION['planId']) || !isset($_GET['metodo'])) {
@@ -14,19 +15,6 @@ $telefono = $_SESSION['telefono'];
 $contraseña = $_SESSION['contraseña'];
 $planId = $_SESSION['planId'];
 $metodoId = intval($_GET['metodo']); // ID del método de pago
-
-// Conectar a la base de datos
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "revecoin";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
 
 // Consultar la inversión del plan seleccionado
 $inversion = '';

@@ -1,23 +1,11 @@
 <?php
-session_start(); // Iniciar sesión al inicio del archivo
+session_start();
+include 'db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar que el usuario haya llegado a esta página después de llenar los datos
 if (!isset($_SESSION['nombre']) || !isset($_SESSION['email']) || !isset($_SESSION['telefono']) || !isset($_SESSION['contraseña']) || !isset($_SESSION['planId'])) {
     header('Location: registro1.php');
     exit();
-}
-
-// Conectar a la base de datos
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "revecoin";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Verificar la conexión
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
 }
 
 // Recuperar los IDs de los métodos de pago desde la base de datos
