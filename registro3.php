@@ -85,7 +85,6 @@ $conn->close();
     <title>ReveCoin - ¡Invierte en el FUTURO!</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="css/revecoin.css" rel="stylesheet">
-    <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
     <link rel="icon" href="images/cropped-v5_15.ico" type="image/x-icon">
     <style>
         /* Estilos para el formulario */
@@ -186,6 +185,12 @@ $conn->close();
 <?php include 'header.php'; ?>
 
 <main>
+
+<button class="back-button" onclick="history.back()">
+        <img src="images/izq.png" alt="Volver">
+    </button>
+    
+
     <section id="servicios">
         <div class="servicios-container">
             <div class="servicio">
@@ -216,11 +221,7 @@ $conn->close();
                 </form>
             </div>
         </div>
-        <div class="rating">
-            <i class="bx bxs-circle"></i>
-            <i class="bx bxs-circle"></i>
-            <i class="bx bxs-circle"></i>
-        </div>
+        
     </section>
 </main>
 <?php include 'footer.php'; ?>

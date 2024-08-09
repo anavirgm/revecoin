@@ -4,7 +4,7 @@ include 'db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header("Location: index.php"); // Redirigir al inicio de sesión si no está autenticado
+    header("Location: login.php"); // Redirigir al inicio de sesión si no está autenticado
     exit();
 }
 
@@ -42,8 +42,63 @@ $conn->close();
     <link href="css/revecoin.css" rel="stylesheet">
     <link href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
     <link rel="icon" href="images/cropped-v5_15.ico" type="image/x-icon">
-    <style>
-        /* Estilos para el formulario */
+</head>
+
+<body>
+<?php include 'header.php'; ?>
+
+    <main>
+        <section id="pricing-plans">
+
+            <h1>Bienvenido, <?php echo htmlspecialchars($nombres); ?>!</h1>
+            
+            <div class="pricing-cards">
+
+                <div class="pricing-card">
+                    <div class="header">
+                        <h3 class="bronze">Realizar tarea diaria</h3>
+                    </div>
+                    <p>Tareas de 10seg</p>
+                    <p class="initial-investment">Recompensas:</p>
+                    <div class="price">
+                        <h4>$<?php echo htmlspecialchars($ganancias); ?></h4>
+                    </div>
+
+                    <a href="tareas.php">
+                        <button class="cta">Realizar tarea</button>
+                    </a>
+
+                    <ul class="features">
+                        <p class="initial-investment">Objetivos:</p>
+                        <li><img src="images/check.png" alt="Feature Icon"> Completar todas las tareas.</li>
+                        <li><img src="images/check.png" alt="Feature Icon"> Ingresar y realizar tareas diariamente.</li>
+                        <li><img src="images/check.png" alt="Feature Icon"> Realizar retiros.</li>
+                    </ul>
+                </div>
+
+
+                <div class="pricing-card">
+                    <div class="header">
+                        <h3 class="silver">Más Opciones</h3>
+                        
+                    </div>
+                    <div class="button-container">
+                        <a href="monedero.php">
+                            <button class="cta">Realizar Retiro</button>
+                        </a>
+                        <a href="index.php#planes">
+                            <button class="cta">Invertir en otro Plan</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <?php include 'footer.php'; ?>
+</body>
+
+<style>
         header {
             display: flex;
             justify-content: space-between;
@@ -157,7 +212,7 @@ $conn->close();
             gap: 10px;
             align-items: center;
             margin-top: 20px;
-            background: #9367FD;
+            /*background: #9367FD;*/
         }
 
         #pricing-plans button {
@@ -206,11 +261,11 @@ $conn->close();
         }
 
         .pricing-card .header .silver {
-            color: #FFFFFF;
+            color: #693DCF; /* white */
         }
 
         .pricing-card .header .bronze {
-            color: #FFFFFF;
+            color: #693DCF; /* white */
         }
 
         .pricing-card .button-container {
@@ -220,14 +275,13 @@ $conn->close();
             justify-content: center;
             height: 400px;
             gap: 40px;
-            padding: 20px; /* Espacio interno para que los botones no lleguen al borde */
+            padding: 20px;
         }
 
-        /* Estilo para los enlaces que contienen los botones */
         .pricing-card .button-container a {
             display: block;
-            width: 100%; /* Asegura que los botones ocupen todo el ancho del contenedor */
-            max-width: 300px; /* Limita el ancho máximo de los botones */
+            width: 100%;
+            max-width: 300px;
         }
 
         .pricing-card .cta {
@@ -258,60 +312,9 @@ $conn->close();
             margin-left: 30px;
         }
 
-   
+        .pricing-cards {
+            gap: 70px;
+        }
     </style>
-</head>
 
-<body>
-<?php include 'header.php'; ?>
-
-    <main>
-        <section id="pricing-plans">
-
-            <h1>Bienvenido, <?php echo htmlspecialchars($nombres); ?>!</h1>
-
-            <div class="pricing-cards">
-
-                <div class="pricing-card">
-                    <div class="header">
-                        <h3 class="bronze">Realizar tarea diaria</h3>
-                    </div>
-                    <p>Tareas de 10min</p>
-                    <p class="initial-investment">Recompensas:</p>
-                    <div class="price">
-                        <h4>$<?php echo htmlspecialchars($ganancias); ?></h4>
-                    </div>
-
-                    <a href="tareas.php">
-                        <button class="cta">Realizar tarea</button>
-                    </a>
-
-                    <ul class="features">
-                        <p class="initial-investment">Objetivos:</p>
-                        <li><img src="images/check.png" alt="Feature Icon"> Completar todas las tareas.</li>
-                        <li><img src="images/check.png" alt="Feature Icon"> Ingresar y realizar tareas diariamente.</li>
-                        <li><img src="images/check.png" alt="Feature Icon"> Realizar retiros.</li>
-                    </ul>
-                </div>
-
-
-                <div class="pricing-card">
-                    <div class="header">
-                        <h3 class="silver">Más Opciones</h3>
-                    </div>
-                    <div class="button-container">
-                        <a href="monedero.php">
-                            <button class="cta">Realizar Retiro</button>
-                        </a>
-                        <a href="index.php#planes">
-                            <button class="cta">Invertir en otro Plan</button>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <?php include 'footer.php'; ?>
-</body>
 </html>

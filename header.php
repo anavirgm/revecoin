@@ -8,19 +8,22 @@ switch ($current_file) {
     case 'monedero.php':
         ?>
         <header>
-        <div class="logo">
-            <a href="index.php">
-                <img src="images/logo.png" alt="Revecoin Logo">
-            </a>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.php">Inicio</a></li>
-                <li><a href="index.php#planes">Planes</a></li>
-                <li><a href="index.php">Cerrar Sesión</a></li>
-            </ul>
-        </nav>
-    </header>
+            <div class="logo">
+                <a href="index.php">
+                    <img src="images/logo.png" alt="Revecoin Logo">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <!-- 
+                    <li><img src="images/der.png"><a href="login.php">Cerrar Sesión</a></li> 
+                    -->
+                    <li><a href="index.php">Inicio</a></li>
+                    <li><a href="index.php#planes">Planes</a></li>
+                    <li><a href="logout.php">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </header>
         <?php
         break;
         

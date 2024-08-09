@@ -53,6 +53,13 @@
     text-decoration: none;
     font-size: 18px;
   }
+
+  nav ul li img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+  }
+  
   
   .welcome-section {
     text-align: center;
@@ -999,4 +1006,44 @@
   
   .footer-icon:hover {
     filter: grayscale(0%); /* Asegura que el color no se vuelva gris al pasar el cursor */
+  }
+
+
+  .back-button,
+  .next-button {
+      position: absolute;
+      background:transparent;
+      color: #fff;
+      border: none;
+      padding: 0; /* Sin padding para ajustar el tamaño de la imagen */
+      border-radius: 50%; /* Redondear completamente el botón */
+      cursor: pointer;
+      font-size: 0; /* Ocultar texto dentro del botón */
+      text-align: center;
+      width: 50px; /* Ancho fijo para mantener la forma circular */
+      height: 50px; /* Alto fijo para mantener la forma circular */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  .back-button img,
+  .next-button img {
+      width: 50px; /* Tamaño de la imagen dentro del botón */
+      height: 50px; /* Tamaño de la imagen dentro del botón */
+  }
+
+  .back-button {
+      top: 340px;
+      left: 20px;
+  }
+
+  .next-button {
+      top: 340px;
+      right: 20px; /* Ubicación a la derecha del botón */
+  }
+
+  .back-button:hover,
+  .next-button:hover {
+      background: #9568ffbd;
   }

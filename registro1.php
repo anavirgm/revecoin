@@ -143,12 +143,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             transform: scale(1.05);
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
         }
+
+        /*
+        <button class="next-button" onclick="window.location.href='registro2.php'">
+            <img src="images/der.png" alt="Siguiente">
+        </button>
+        */
     </style>
 </head>
 <body>
 <?php include 'header.php'; ?>
 
     <main>
+
+    <button class="back-button" onclick="history.back()">
+        <img src="images/izq.png" alt="Volver">
+    </button>
+
         <section id="servicios">
             <h2>Usted ha elegido el plan <?php echo $planName; ?></h2>
 

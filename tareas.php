@@ -155,7 +155,6 @@ $conn->close();
             background-color:#693dcfbd;
             width: 0;
             transition: width 10s linear;
-            cursor:progress;
         }
 
         .cta.active .progress-bar {
@@ -173,6 +172,11 @@ $conn->close();
 <?php include 'header.php'; ?>
 
 <main>
+
+<button class="back-button" onclick="history.back()">
+        <img src="images/izq.png" alt="Volver">
+    </button>
+
     <section id="pricing-plans">
         <h2 id="planes"> </h2>
         <div class="pricing-cards">
@@ -185,13 +189,16 @@ $conn->close();
                 <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
                 
                 <a href="javascript:void(0);">
-                <button class="cta" id="start-task-1" data-task-complete="false">Iniciar
-                    <div class="progress-bar"></div>
-                </button>
-
+                    <button class="cta" id="start-task-1" data-task-complete="false" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
+                        <div class="progress-bar"></div>
+                    </button>
                 </a>
                 <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
             </div>
+
+
+
+
 
             <div class="pricing-card" data-id="2">
                 <div class="header">
@@ -201,7 +208,7 @@ $conn->close();
                 <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
                 
                 <a href="javascript:void(0);">
-                    <button class="cta" id="start-task-2" data-task-complete="false">Iniciar
+                    <button class="cta" id="start-task-2" data-task-complete="false" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
                         <div class="progress-bar"></div>
                     </button>
                 </a>
@@ -216,7 +223,7 @@ $conn->close();
                 <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
                 
                 <a href="javascript:void(0);">
-                    <button class="cta" id="start-task-3" data-task-complete="false">Iniciar
+                    <button class="cta" id="start-task-3" data-task-complete="false" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
                         <div class="progress-bar"></div>
                     </button>
                 </a>
@@ -225,8 +232,8 @@ $conn->close();
 
         </div>
 
-        <a href=" ">
-            <button class="acumulado">Acumulado: <br> $<?php echo number_format($dinero_acumulado, 2); ?></button>
+        <a href="monedero.php">
+        <button class="acumulado" id="acumulado-btn">Acumulado: <br>$<?php echo htmlspecialchars($dinero_acumulado, 2); ?></button>
         </a>
 
     </section>
@@ -234,32 +241,39 @@ $conn->close();
 <?php include 'footer.php'; ?>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Función para iniciar la tarea
-    const startTask = (buttonId) => {
-        const button = document.getElementById(buttonId);
-        const progressBar = button.querySelector('.progress-bar');
-        const isTaskComplete = button.getAttribute('data-task-complete') === 'true';
-        
-        if (!isTaskComplete) {
-            button.classList.add('active');
-            setTimeout(() => {
-                button.classList.remove('active');
-                button.innerHTML = 'Completado'; // Cambiar el texto del botón
-                button.disabled = true; // Deshabilitar el botón
-                button.setAttribute('data-task-complete', 'true'); // Marcar la tarea como completada
-            }, 10000); // 10 segundos
-        }
-    };
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.cta');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (this.dataset.taskComplete === 'false') {
+                this.dataset.taskComplete = 'true';
+                this.querySelector('.progress-bar').style.width = '100%';
+                this.disabled = true; // Deshabilitar el botón durante la tarea
 
-    // Asignar evento de clic a los botones
-    document.getElementById('start-task-1').addEventListener('click', () => startTask('start-task-1'));
-    document.getElementById('start-task-2').addEventListener('click', () => startTask('start-task-2'));
-    document.getElementById('start-task-3').addEventListener('click', () => startTask('start-task-3'));
+                const recompensa = parseFloat(this.dataset.recompensa); // Asegúrate de que sea decimal
+                const acumuladoBtn = document.getElementById('acumulado-btn');
+
+                setTimeout(() => {
+                    this.textContent = 'Completado';
+
+                    // Actualiza el valor en el botón de acumulado
+                    fetch('update_acumulado.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: 'recompensa=' + encodeURIComponent(recompensa)
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        acumuladoBtn.innerHTML = 'Acumulado:<br>$' + parseFloat(data).toFixed(2);
+                    })
+                    .catch(error => console.error('Error:', error));
+                }, 10000); // 10 segundos
+            }
+        });
+    });
 });
-
-
 </script>
-
 </body>
 </html>

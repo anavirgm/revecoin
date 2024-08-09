@@ -132,6 +132,12 @@ $conn->close();
 <?php include 'header.php'; ?>
 
     <main>
+
+    <button class="back-button" onclick="history.back()">
+        <img src="images/izq.png" alt="Volver">
+    </button>
+    
+    
         <section id="servicios">
             <div class="servicios-container">
                 <div class="servicio">
