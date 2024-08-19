@@ -8,6 +8,16 @@ if (!isset($_SESSION['nombre']) || !isset($_SESSION['email']) || !isset($_SESSIO
     exit();
 }
 
+// Obtener el nombre del plan seleccionado
+$planId = $_SESSION['planId'];
+$result = $conn->query("SELECT nombre FROM planes WHERE id = $planId");
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $planName = $row['nombre'];
+} else {
+    $planName = 'Plan desconocido';
+}
+
 // Recuperar los IDs de los métodos de pago desde la base de datos
 $metodos = [];
 $result = $conn->query("SELECT id, nombre FROM metodos_pago");
@@ -46,6 +56,18 @@ $conn->close();
             font-weight: bold;
         }
 
+        /* header dentro de la clase servicio */
+        .servicio-header {
+            background-color: #9568FF; 
+            color: white; 
+            text-align: center;
+            padding: 15px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            font-size: 18px;
+            margin-bottom: 15px; 
+        }
+
         #servicios h3 {
             font-size: 20px;
             color: #374557;
@@ -53,17 +75,17 @@ $conn->close();
 
         .servicio {
             background: #fff;
-            padding: 1.5rem;
+            padding: 0rem;
             border-radius: 16px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             flex: 1;
-            max-width: 300px;
+            max-width: 400px;
             margin-top: 30px;
             margin-bottom: 20px;
             transition: none;
+            position: relative;
         }
-
 
         .servicio:hover {
             transform: none;
@@ -73,7 +95,8 @@ $conn->close();
         .button-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
+            justify-content: center;
         }
 
         .registro-button {
@@ -125,6 +148,15 @@ $conn->close();
         .binancepay {
             background-color: #BCB575; /* Beige */
             color: white;
+            margin-bottom:40px;
+        }
+
+        .custom-line {
+            border: 0;
+            height: 2px;
+            background-color: #7179A8; 
+            margin: 20px auto;
+            width: 85%; 
         }
     </style>
 </head>
@@ -137,23 +169,31 @@ $conn->close();
         <img src="images/izq.png" alt="Volver">
     </button>
     
-    
-        <section id="servicios">
-            <div class="servicios-container">
-                <div class="servicio">
-                    <h3>Por favor, Ingrese su <br> método de pago.</h3>
-                    <p>----------------------------------</p>
-                    <div class="button-container">
-                        <?php foreach ($metodos as $nombre => $id): ?>
-                        <button class="registro-button <?php echo strtolower($nombre); ?>" onclick="location.href='registro3.php?metodo=<?php echo $id; ?>'">
-                            <img src="images/<?php echo strtolower($nombre); ?>.png" alt="<?php echo $nombre; ?>">
-                            <span><?php echo $nombre; ?></span>
-                        </button>
-                        <?php endforeach; ?>
-                    </div>
+    <section id="servicios">
+        <div class="servicios-container">
+            <div class="servicio">
+                <!-- Agregamos un header similar al de la imagen -->
+                <div class="servicio-header">
+                    Usted Ha Elegido el Plan <?php echo $planName; ?>
+                </div>
+                <h3>Por favor, Ingrese su <br> método de pago.</h3>
+                
+                <p>
+                    <hr class="custom-line">
+                </p>
+
+
+                <div class="button-container">
+                    <?php foreach ($metodos as $nombre => $id): ?>
+                    <button class="registro-button <?php echo strtolower($nombre); ?>" onclick="location.href='registro3.php?metodo=<?php echo $id; ?>'">
+                        <img src="images/<?php echo strtolower($nombre); ?>.png" alt="<?php echo $nombre; ?>">
+                        <span><?php echo $nombre; ?></span>
+                    </button>
+                    <?php endforeach; ?>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     </main>
     
     <?php include 'footer.php'; ?>

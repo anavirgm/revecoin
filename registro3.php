@@ -16,6 +16,25 @@ $contraseña = $_SESSION['contraseña'];
 $planId = $_SESSION['planId'];
 $metodoId = intval($_GET['metodo']); // ID del método de pago
 
+// Obtener el nombre del plan seleccionado
+$planId = $_SESSION['planId'];
+$result = $conn->query("SELECT nombre FROM planes WHERE id = $planId");
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $planName = $row['nombre'];
+} else {
+    $planName = 'Plan desconocido';
+}
+
+// Recuperar los IDs de los métodos de pago desde la base de datos
+$metodos = [];
+$result = $conn->query("SELECT id, nombre FROM metodos_pago");
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $metodos[$row['nombre']] = $row['id'];
+    }
+}
+
 // Consultar la inversión del plan seleccionado
 $inversion = '';
 $stmt = $conn->prepare("SELECT inversion FROM planes WHERE id = ?");
@@ -110,13 +129,13 @@ $conn->close();
 
         .servicio {
             background: #fff;
-            padding: 1.5rem;
+            padding: 0rem;
             border-radius: 16px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             flex: 1;
-            max-width: 450px;
-            margin-top: 30px;
+            max-width: 500px;
+            margin-top: 40px;
             margin-bottom: 20px;
             transition: none;
         }
@@ -162,7 +181,7 @@ $conn->close();
 
         .form-container button {
             display: block;
-            margin: 20px auto;
+            margin: 20px auto 40px;
             padding: 10px 20px;
             background-color: #9568FF;
             color: white;
@@ -179,6 +198,25 @@ $conn->close();
             transform: scale(1.05);
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
         }
+
+        .custom-line {
+            border: 0;
+            height: 2px;
+            background-color: #7179A8; 
+            margin: 20px auto;
+            width: 85%; 
+        }
+
+        .servicio-header {
+            background-color: #9568FF;
+            color: white; 
+            text-align: center;
+            padding: 15px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -194,8 +232,16 @@ $conn->close();
     <section id="servicios">
         <div class="servicios-container">
             <div class="servicio">
-                <h3>Por favor, Ingrese los <br> datos de su Tarjeta.</h3>
-                <p>----------------------------------</p>
+            <div class="servicio-header">
+                    Usted Ha Elegido el Plan <?php echo $planName; ?>
+                </div>
+                <h3>Por favor, Ingrese su <br> método de pago.</h3>
+                
+                <p>
+                    <hr class="custom-line">
+                </p>
+                
+                
                 <form method="POST" action="">
                     <div class="form-container">
                         <div class="form-group">

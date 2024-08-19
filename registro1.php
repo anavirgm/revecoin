@@ -80,13 +80,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .servicio {
             background: #fff;
-            padding: 1.5rem;
+            padding: 0rem;
             border-radius: 16px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
             flex: 1;
-            max-width: 450px;
-            margin-top: 30px;
+            max-width: 500px;
+            margin-top: 40px;
             margin-bottom: 20px;
         }
 
@@ -126,7 +126,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .form-container button {
             display: block;
-            margin: 20px auto;
+            margin: 20px auto 40px; /* Ajusta el margen inferior (bottom) */
             padding: 10px 20px;
             background-color: #9568FF;
             color: white;
@@ -139,9 +139,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             width: 300px;
         }
 
+
         .form-container button:hover {
             transform: scale(1.05);
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .servicio-header {
+            background-color: #9568FF; 
+            color: white; 
+            text-align: center;
+            padding: 15px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            font-size: 18px;
+        }
+
+        .custom-line {
+            border: 0;
+            height: 2px;
+            background-color: #7179A8; 
+            margin: 20px auto;
+            width: 85%; 
         }
 
         /*
@@ -161,12 +180,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </button>
 
         <section id="servicios">
-            <h2>Usted ha elegido el plan <?php echo $planName; ?></h2>
+        <!--
+        <h2>Usted ha elegido el plan <?php echo $planName; ?></h2>
 
+        -->    
+        
             <div class="servicios-container">
+                 
                 <div class="servicio">
+                <div class="servicio-header">
+                        Usted Ha Elegido el Plan <?php echo $planName; ?>
+                    </div>
+
                     <h3>Por favor, Ingrese sus <br> datos personales.</h3>
-                    <p>-----------------------------------------------</p>
+                    <p>
+                        <hr class="custom-line">
+                    </p>
 
                     <form method="post" class="form-container">
                         <div class="form-group">
