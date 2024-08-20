@@ -25,10 +25,10 @@
                 <h3>Links</h3>
                 <ul>
                     <li><img src="images/pick.png" alt="Feature Icon"><a href="#"> Términos y condiciones</a></li>
-                    <li><a href="#">Políticas de privacidad</a></li>
-                    <li><a href="#">Preguntas Frecuentes (FAQ)</a></li>
-                    <li><a href="#">Uso de Datos</a></li>
-                    <li><a href="#">Política de Reembolso</a></li>
+                    <li><img src="images/pick.png" alt="Feature Icon"><a href="#"> Políticas de privacidad</a></li>
+                    <li><img src="images/pick.png" alt="Feature Icon"><a href="#"> Preguntas Frecuentes (FAQ)</a></li>
+                    <li><img src="images/pick.png" alt="Feature Icon"><a href="#"> Uso de Datos</a></li>
+                    <li><img src="images/pick.png" alt="Feature Icon"><a href="#"> Política de Reembolso</a></li>
                 </ul>
             </div>
             <div class="footer-column">
