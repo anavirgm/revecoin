@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php'; // archivo con la conexión a la base de datos
+include './database/db_connection.php'; // Archivo con la conexión a la base de datos
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -8,10 +8,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit();
 }
 
-// Obtener la información del usuario desde la sesión
 $id = $_SESSION['id'];
-$nombres = $_SESSION['nombres'];
-
 
 // Obtener el plan del usuario
 $sql = "SELECT plan FROM usuarios WHERE id = ?";
@@ -55,10 +52,23 @@ if ($result->num_rows > 0) {
     $dinero_acumulado = 0;
 }
 
+// Verificar el estado de las tareas
+$tareas_estado = [];
+for ($i = 1; $i <= 3; $i++) {
+    $sql = "SELECT COUNT(*) as count FROM tareas_completadas WHERE usuario_id = ? AND task_id = ? AND fecha_completado = CURDATE()";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ii", $id, $i);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $tareas_estado[$i] = $row['count'] > 0 ? 'true' : 'false';
+}
+
 // Cerrar la conexión
 $stmt->close();
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -181,7 +191,7 @@ $conn->close();
         <h2 id="planes"> </h2>
         <div class="pricing-cards">
 
-            <div class="pricing-card" data-id="1">
+        <div class="pricing-card" data-id="1">
                 <div class="header">
                     <h3 class="bronze">Tarea Nº1</h3>
                 </div>
@@ -189,7 +199,7 @@ $conn->close();
                 <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
                 
                 <a href="javascript:void(0);">
-                    <button class="cta" id="start-task-1" data-task-complete="false" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
+                    <button class="cta" id="start-task-1" data-task-complete="<?php echo htmlspecialchars($tareas_estado[1]); ?>" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
                         <div class="progress-bar"></div>
                     </button>
                 </a>
@@ -197,23 +207,22 @@ $conn->close();
             </div>
 
 
-
-
-
             <div class="pricing-card" data-id="2">
                 <div class="header">
-                    <h3 class="silver">Tarea Nº2</h3>
+                    <h3 class="bronze">Tarea Nº2</h3>
                 </div>
                 <p>Duración: 10seg</p>
                 <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
                 
                 <a href="javascript:void(0);">
-                    <button class="cta" id="start-task-2" data-task-complete="false" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
+                    <button class="cta" id="start-task-2" data-task-complete="<?php echo htmlspecialchars($tareas_estado[2]); ?>" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
                         <div class="progress-bar"></div>
                     </button>
                 </a>
                 <p class="initial-investment">Recompensa: <br> $<?php echo htmlspecialchars($recompensa); ?></p>
             </div>
+
+
 
             <div class="pricing-card" data-id="3">
                 <div class="header">
@@ -223,7 +232,7 @@ $conn->close();
                 <p class="initial-investment1">Lorem ipsum dolor <br> sit amet, consectetur <br> adipiscing elit  sed <br> Lorem adipiscing elit</p>
                 
                 <a href="javascript:void(0);">
-                    <button class="cta" id="start-task-3" data-task-complete="false" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
+                    <button class="cta" id="start-task-3" data-task-complete="<?php echo htmlspecialchars($tareas_estado[3]); ?>" data-recompensa="<?php echo htmlspecialchars($recompensa); ?>">Iniciar
                         <div class="progress-bar"></div>
                     </button>
                 </a>
@@ -244,36 +253,54 @@ $conn->close();
 document.addEventListener('DOMContentLoaded', function() {
     const buttons = document.querySelectorAll('.cta');
     buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            if (this.dataset.taskComplete === 'false') {
-                this.dataset.taskComplete = 'true';
-                this.querySelector('.progress-bar').style.width = '100%';
-                this.disabled = true; // Deshabilitar el botón durante la tarea
+        if (button.dataset.taskComplete === 'true') {
+            button.textContent = 'Completado';
+            button.disabled = true;
+            button.querySelector('.progress-bar').style.width = '100%';
+        } else {
+            button.addEventListener('click', function() {
+                if (this.dataset.taskComplete === 'false') {
+                    this.dataset.taskComplete = 'true';
+                    this.querySelector('.progress-bar').style.width = '100%';
+                    this.disabled = true; // Deshabilitar el botón durante la tarea
 
-                const recompensa = parseFloat(this.dataset.recompensa); // Asegúrate de que sea decimal
-                const acumuladoBtn = document.getElementById('acumulado-btn');
+                    const recompensa = parseFloat(this.dataset.recompensa);
+                    const acumuladoBtn = document.getElementById('acumulado-btn');
 
-                setTimeout(() => {
-                    this.textContent = 'Completado';
+                    setTimeout(() => {
+                        this.textContent = 'Completado';
 
-                    // Actualiza el valor en el botón de acumulado
-                    fetch('update_acumulado.php', {
+                        // Actualiza el valor en el botón de acumulado
+                        fetch('update_acumulado.php', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                            body: 'recompensa=' + encodeURIComponent(recompensa)
+                        })
+                        .then(response => response.text())
+                        .then(data => {
+                            acumuladoBtn.innerHTML = 'Acumulado:<br>$' + parseFloat(data).toFixed(2);
+                        })
+                        .catch(error => console.error('Error:', error));
+                    }, 10000); // 10 segundos
+
+                    // Marcar tarea como completada en la base de datos
+                    fetch('mark_task_complete.php', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded',
                         },
-                        body: 'recompensa=' + encodeURIComponent(recompensa)
-                    })
-                    .then(response => response.text())
-                    .then(data => {
-                        acumuladoBtn.innerHTML = 'Acumulado:<br>$' + parseFloat(data).toFixed(2);
+                        body: 'task_id=' + encodeURIComponent(this.id.split('-')[2])
                     })
                     .catch(error => console.error('Error:', error));
-                }, 10000); // 10 segundos
-            }
-        });
+                }
+            });
+        }
     });
 });
+
 </script>
+
 </body>
 </html>

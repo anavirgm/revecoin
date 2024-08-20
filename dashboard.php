@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php'; // archivo con la conexión a la base de datos
+include './database/db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -49,14 +49,14 @@ $conn->close();
 
     <main>
         <section id="pricing-plans">
-
             <h1>Bienvenido, <?php echo htmlspecialchars($nombres); ?>!</h1>
             
             <div class="pricing-cards">
 
                 <div class="pricing-card">
-                    <div class="header">
-                        <h3 class="bronze">Realizar tarea diaria</h3>
+                    <!-- Header personalizado para la tarjeta de "Realizar tarea diaria" -->
+                    <div class="servicio-header">
+                        Realizar tarea diaria
                     </div>
                     <p>Tareas de 10seg</p>
                     <p class="initial-investment">Recompensas:</p>
@@ -76,11 +76,10 @@ $conn->close();
                     </ul>
                 </div>
 
-
                 <div class="pricing-card">
-                    <div class="header">
-                        <h3 class="silver">Más Opciones</h3>
-                        
+                    <!-- Header personalizado para la tarjeta de "Más Opciones" -->
+                    <div class="servicio-header">
+                        Más Opciones
                     </div>
                     <div class="button-container">
                         <a href="monedero.php">
@@ -205,6 +204,18 @@ $conn->close();
             background-color: #7a4cd8;
         }
 
+        /* Nuevo estilo para los headers personalizados */
+        .servicio-header {
+            background-color: #9568FF; /* Color del fondo */
+            color: white; /* Color del texto */
+            text-align: center;
+            padding: 15px;
+            border-top-left-radius: 16px; /* Bordes redondeados en la parte superior */
+            border-top-right-radius: 16px;
+            font-size: 20px;
+            margin-bottom: 15px; /* Separación con el contenido debajo */
+        }
+
         .pricing-card .header {
             margin-bottom: -10px;
             display: flex;
@@ -212,7 +223,6 @@ $conn->close();
             gap: 10px;
             align-items: center;
             margin-top: 20px;
-            /*background: #9367FD;*/
         }
 
         #pricing-plans button {
@@ -230,11 +240,10 @@ $conn->close();
             background-color: #4f3492;
             transform: scale(1.05);
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-                
         }
 
         .pricing-card {
-            width: 40%;
+            width: 35%;
             background-color: #FFFFFF;
             border-radius: 20px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -261,11 +270,11 @@ $conn->close();
         }
 
         .pricing-card .header .silver {
-            color: #693DCF; /* white */
+            color: #693DCF;
         }
 
         .pricing-card .header .bronze {
-            color: #693DCF; /* white */
+            color: #693DCF;
         }
 
         .pricing-card .button-container {
@@ -313,7 +322,7 @@ $conn->close();
         }
 
         .pricing-cards {
-            gap: 70px;
+            gap: 110px;
         }
     </style>
 

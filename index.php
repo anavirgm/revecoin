@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
     <link href="css/revecoin.css" rel="stylesheet">
     <link rel="icon" href="images/cropped-v5_15.ico" type="image/x-icon">
-    
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -259,6 +259,17 @@
                     <div></div>
                     <div></div>
                 </div>
+
+                <div id="caras">
+                <div>Buda</div>
+                <div>$15</div>
+                <div>$10</div>
+                <div>$5</div>
+                <div>$20</div>
+                <div>$15</div>
+                <div>$10</div>
+                <div>$5</div>
+            </div>
 
             </div>
             <div id="triangulo"></div>

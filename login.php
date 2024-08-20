@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php'; // archivo con la conexión a la base de datos
+include './database/db_connection.php'; // archivo con la conexión a la base de datos
 
 $error_message = '';
 

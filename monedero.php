@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php'; // archivo con la conexión a la base de datos
+include './database/db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -179,6 +179,7 @@ $conn->close();
             border-radius: 10px;
             transition: transform 0.3s, box-shadow 0.3s;
             margin-top: 15px;
+            margin-bottom: 15px;
             width: 50%;
         }
         
@@ -186,6 +187,21 @@ $conn->close();
             transform: scale(1.05);
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
         }
+
+        .pricing-card .header h3 {
+            font-size: 30px;
+            margin-top: -10px;
+            font-weight: bold;
+        }
+
+        .custom-line {
+            border: 0;
+            height: 2px;
+            background-color: #7179A8; 
+            margin: 20px auto;
+            width: 85%; 
+        }
+
 
         
     </style>
@@ -208,7 +224,9 @@ $conn->close();
                 <div class="header">
                     <h3 class="bronze">Monedero <br> $<?php echo number_format($dinero_acumulado, 2); ?></h3>
                 </div>
-
+                <p>
+                    <hr class="custom-line">
+                </p>
                 <p>Realizar Retiro</p>
 
                

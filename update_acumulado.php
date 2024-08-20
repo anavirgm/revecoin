@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'db_connection.php'; // archivo con la conexión a la base de datos
+include './database/db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar si el usuario está logueado
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {

@@ -1,6 +1,6 @@
 <?php
 session_start(); // Iniciar sesión al inicio del archivo
-include 'db_connection.php'; // archivo con la conexión a la base de datos
+include './database/db_connection.php'; // archivo con la conexión a la base de datos
 
 // Verificar que el usuario haya llegado a esta página después de llenar los datos
 if (!isset($_SESSION['nombre']) || !isset($_SESSION['email']) || !isset($_SESSION['telefono']) || !isset($_SESSION['contraseña']) || !isset($_SESSION['planId']) || !isset($_GET['metodo'])) {
