@@ -2,12 +2,6 @@
 session_start();
 include './database/db_connection.php'; // archivo con la conexión a la base de datos
 
-// Verificar que el usuario haya llegado a esta página después de llenar los datos
-if (!isset($_SESSION['nombre']) || !isset($_SESSION['email']) || !isset($_SESSION['telefono']) || !isset($_SESSION['contraseña']) || !isset($_SESSION['planId'])) {
-    header('Location: registro1.php');
-    exit();
-}
-
 // Obtener el nombre del plan seleccionado
 $planId = $_SESSION['planId'];
 $result = $conn->query("SELECT nombre FROM planes WHERE id = $planId");
